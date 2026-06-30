@@ -1,12 +1,10 @@
 import express from "express";
 import cors from "cors";
-const app = express();
 
 import dotenv from "dotenv";
 dotenv.config({ path: "./config/config.env" });
 
 import app from "./app.js";
-  import cors from "cors";
 
     const allowedOrigins = [
       "http://localhost:5173",
