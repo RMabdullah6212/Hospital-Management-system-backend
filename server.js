@@ -1,29 +1,29 @@
 import express from "express";
 import cors from "cors";
 const app = express();
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://hospital-management-system-frontend-green.vercel.app",],
-    credentials: true
-}
-));
 
 import dotenv from "dotenv";
 dotenv.config({ path: "./config/config.env" });
 
 import app from "./app.js";
-import cloudinary from "cloudinary";
+  import cors from "cors";
 
-cloudinary.v2.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+    const allowedOrigins = [
+      "http://localhost:5173",
+      "https://hospital-management-system-frontend-green.vercel.app",
+      "https://hospital-management-system-fro-git-7e3a2d-muhammad-abdullah6212.vercel.app"
+    ];
 
-if (!process.env.VERCEL){
-  app.listen(process.env.PORT, () => {
-  console.log(`Server is running on port ${process.env.PORT}`);
-});
-}
-export default app;
+    app.use(cors({
+      origin: function (origin, callback) {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      credentials: true,
+    }));
+
+    app.options("*", cors()); // Ye Preflight ke liye hai
